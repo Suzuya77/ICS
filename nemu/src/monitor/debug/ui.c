@@ -8,6 +8,7 @@
 #include <readline/history.h>
 
 void cpu_exec(uint64_t);
+void isa_reg_display();
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -38,6 +39,7 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 static int cmd_si(char *args);
+static int cmd_info(char *args);
 static int cmd_p(char *args);
 static int cmd_x(char *args);
 static int cmd_w(char *args);
@@ -55,7 +57,9 @@ static struct {
 
   /* TODO: Add more commands */
 
-  {"si", "Pause the program after N instructions are executed, the default n is 1", cmd_si}
+  {"si", "Pause the program after N instructions are executed, the default n is 1", cmd_si},
+  {"info", "Print the status of registor with info r while the information of watchpoint with info w", cmd_info}
+
 
 
 };
@@ -92,6 +96,19 @@ static int cmd_si(char *args){
     sscanf(args, "%ld", &instructionsNum);
   }
   cpu_exec(instructionsNum);
+  return 0;
+}
+
+static int cmd_info(char *args){
+  switch(*args){
+    case 'r':
+      isa_reg_display();
+      break;
+    case 'w':
+      break;
+    default: 
+      return 1;
+  }
   return 0;
 }
 
