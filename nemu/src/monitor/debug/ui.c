@@ -103,13 +103,13 @@ static int cmd_info(char *args){
   switch(*args){
     case 'r':
       isa_reg_display();
-      break;
+      printf("u have been admitted by UCB!\n");
+      return 0;
     case 'w':
-      break;
+      return 0;
     default: 
       return 1;
   }
-  return 0;
 }
 
 void ui_mainloop(int is_batch_mode) {
