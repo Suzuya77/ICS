@@ -89,7 +89,7 @@ static int cmd_si(char *args){
   uint64_t instructionsNum = 1;
   if (args != NULL)
   {
-    sscanf(args, "%d", &instructionsNum);
+    sscanf(args, "%ld", &instructionsNum);
   }
   cpu_exec(instructionsNum);
   return 0;
