@@ -103,7 +103,6 @@ static int cmd_info(char *args){
   switch(*args){
     case 'r':
       isa_reg_display();
-      printf("u have been admitted by UCB!\n");
       return 0;
     case 'w':
       return 0;
