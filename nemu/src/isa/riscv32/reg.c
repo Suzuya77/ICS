@@ -13,7 +13,7 @@ void isa_reg_display() {
   	for(int i = 0; i < regNum; i++)
   	{
     	reg = reg_l(i);
-    	printf("%-6s 0x%x %9d\n", reg_name(i, sizeof(reg)*8), reg, reg);
+    	printf("%-6s 0x%8x %9d\n", reg_name(i, sizeof(reg)*8), reg, reg);
   	}
 }
 
