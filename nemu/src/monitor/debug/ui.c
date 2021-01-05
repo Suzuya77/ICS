@@ -114,7 +114,7 @@ static int cmd_info(char *args){
 static int cmd_p(char *args){
   bool success;
   uint32_t result = expr(args, &success);
-  printf("The result of is 0x%x  %u \n", result, result);
+  printf("The result of %s is 0x%x  %u \n", args, result, result);
   return 0;
 }
 
