@@ -112,6 +112,7 @@ static int cmd_info(char *args){
       isa_reg_display();
       return 0;
     case 'w':
+      displayAllWP();
       return 0;
     default: 
       return 1;
