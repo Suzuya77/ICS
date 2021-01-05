@@ -120,10 +120,8 @@ static int cmd_p(char *args){
 }
 
 static int cmd_x(char *args){
-  printf("args : %s \n", args);
   char *argN = strtok(args, " ");
-    printf("args : %s \n", args);
-  char *argEXPR = strtok(args, " ");
+  char *argEXPR = strtok(NULL, " ");
 
   if (argN == NULL || argEXPR == NULL){
     printf("Wrong format: %s or %s \n", argN, argEXPR);
