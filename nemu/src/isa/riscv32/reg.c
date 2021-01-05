@@ -30,7 +30,8 @@ uint32_t isa_reg_str2val(const char *s, bool *success) {
 		return reg_l(0);
 	}
 
-	for (int i = 0; i < REGISTER_NUMBER; ++i)
+	int i = 0;
+	for (; i < REGISTER_NUMBER; ++i)
 	{
 		if (strcmp(regsl[i], s) == 0)
 		{
