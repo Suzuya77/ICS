@@ -128,6 +128,8 @@ static int cmd_x(char *args){
     return 0;
   }
 
+  printf("argN : %s, argEXPR : %s\n", argN, argEXPR);
+  
   int N = atoi(argN);
   bool success;
   uint32_t EXPR = expr(argEXPR, &success);
