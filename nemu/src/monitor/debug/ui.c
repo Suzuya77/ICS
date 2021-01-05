@@ -9,6 +9,10 @@
 
 void cpu_exec(uint64_t);
 void isa_reg_display();
+void displayWP(int N);
+void displayAllWP();
+bool freeWP(int N);
+WP* new_wp(char *Expr);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 static char* rl_gets() {
@@ -59,8 +63,10 @@ static struct {
 
   {"si", "Pause the program after N instructions are executed, the default n is 1", cmd_si},
   {"info", "Print the status of registor with info r while the information of watchpoint with info w", cmd_info},
-  {"p", "calculate the value of the expression", cmd_p},
-  {"x", "scan memory", cmd_x}
+  {"p", "Calculate the value of the expression", cmd_p},
+  {"x", "Scan memory", cmd_x},
+  {"w", "Add an watchpoint to a given site", cmd_w},
+  {"d", "Free a given watchpoint", cmd_d}
 
 
 };
@@ -128,7 +134,7 @@ static int cmd_x(char *args){
     return 0;
   }
 
-  printf("argN : %s, argEXPR : %s\n", argN, argEXPR);
+  // printf("argN : %s, argEXPR : %s\n", argN, argEXPR);
 
   int N = atoi(argN);
   bool success;
@@ -149,7 +155,41 @@ static int cmd_x(char *args){
   return 0;
 }
 
+static int cmd_w(char *args){
+  char *Expr = args;
+  WP *wp = new_wp(Expr);
+  if (wp != NULL)
+  {
+    printf("watchpoint NO.%d: %s\n", wp->NO, wp->EXPR);
+  }else
+  {
+    printf("watchpoint creating failure\n");
+  }
 
+  return 0;
+}
+
+static int cmd_d(char *args){
+  char *argN = strtok(NULL, " ");
+  if(argN == NULL) 
+  {
+    printf("arg ought to be a positive integer\n");
+    return 0;
+  } 
+  
+  int N = atoi(argN); 
+  if (N < 0 || N > 32) {
+    printf("%d is to large!, the range of N is 0 to %d\n", N, 32);
+    return 0;
+  }
+  
+  if(!freeWP(N)) 
+  {
+    printf("No.%d watchpoint not found \n", N);  
+  }
+
+  return 0; 
+}
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
     cmd_c(NULL);
