@@ -122,6 +122,7 @@ static int cmd_p(char *args){
 static int cmd_x(char *args){
   printf("args : %s \n", args);
   char *argN = strtok(args, " ");
+    printf("args : %s \n", args);
   char *argEXPR = strtok(args, " ");
 
   if (argN == NULL || argEXPR == NULL){
