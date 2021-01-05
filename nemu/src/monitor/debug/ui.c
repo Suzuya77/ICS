@@ -120,6 +120,7 @@ static int cmd_p(char *args){
 }
 
 static int cmd_x(char *args){
+  printf("args : %s \n", args);
   char *argN = strtok(args, " ");
   char *argEXPR = strtok(args, " ");
 
@@ -129,7 +130,7 @@ static int cmd_x(char *args){
   }
 
   printf("argN : %s, argEXPR : %s\n", argN, argEXPR);
-  
+
   int N = atoi(argN);
   bool success;
   uint32_t EXPR = expr(argEXPR, &success);
