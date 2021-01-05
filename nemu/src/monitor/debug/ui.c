@@ -59,7 +59,8 @@ static struct {
 
   {"si", "Pause the program after N instructions are executed, the default n is 1", cmd_si},
   {"info", "Print the status of registor with info r while the information of watchpoint with info w", cmd_info},
-  {"p", "calculate the value of the expression", cmd_p}
+  {"p", "calculate the value of the expression", cmd_p},
+  {"x", "scan memory", cmd_x}
 
 
 };
