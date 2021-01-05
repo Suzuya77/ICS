@@ -118,6 +118,34 @@ static int cmd_p(char *args){
   return 0;
 }
 
+static int cmd_x(char *args){
+  char *argN = strtok(args, " ");
+  char *argEXPR = strtok(args, " ");
+
+  if (argN == NULL || argEXPR == NULL){
+    printf("Wrong format: %s or %s \n", argN, argEXPR);
+    return 0;
+  }
+
+  int N = atoi(argN);
+  bool success;
+  uint32_t EXPR = expr(argEXPR, &success);
+
+  if (!success)
+  {
+    printf("Wrong expression %s\n", argEXPR);
+    return 0;
+  }
+
+  printf("\tpaddr \t data \t \n");
+  for (int i = 0; i < N; ++i)
+  {
+    printf("0x%08x \t 0x%08x \n", EXPR, vaddr_read(EXPR,4));
+    EXPR += 4;
+  }
+  return 0;
+}
+
 
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
