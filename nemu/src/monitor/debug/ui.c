@@ -58,8 +58,8 @@ static struct {
   /* TODO: Add more commands */
 
   {"si", "Pause the program after N instructions are executed, the default n is 1", cmd_si},
-  {"info", "Print the status of registor with info r while the information of watchpoint with info w", cmd_info}
-
+  {"info", "Print the status of registor with info r while the information of watchpoint with info w", cmd_info},
+  {"p", "calculate the value of the expression", cmd_p}
 
 
 };
@@ -110,6 +110,14 @@ static int cmd_info(char *args){
       return 1;
   }
 }
+
+static int cmd_p(char *args){
+  bool success;
+  uint32_t result = expr(args, &success);
+  printf("The result of %s is 0x%x  %u \n", *args, result, result);
+  return 0;
+}
+
 
 void ui_mainloop(int is_batch_mode) {
   if (is_batch_mode) {
