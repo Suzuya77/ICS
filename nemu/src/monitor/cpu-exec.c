@@ -62,6 +62,7 @@ void cpu_exec(uint64_t n) {
 
     /* TODO: check watchpoints here. */
   bool watchpointExistence = watchpointMonitor();
+  printf("watchpointExistence: %d\n",watchpointExistence);
   if (watchpointExistence)
   {
     nemu_state.state = NEMU_STOP;
