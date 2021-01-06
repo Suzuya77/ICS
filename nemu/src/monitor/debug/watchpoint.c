@@ -119,8 +119,7 @@ void displayWP(int N){
 		return;
 	} 
 
-	printf("Num \t EXPR\n");
-	printf("%d\t%s\n", wp->NO, wp->EXPR);
+	printf("No.%d: Expr:%s NewValue:%d\n", wp->NO, wp->EXPR, wp->newValue);
 }
 
 
@@ -132,11 +131,9 @@ void displayAllWP(){
 		return;
 	} 
 
-	printf("No. \t EXPR\n");
-	
 	while (wp != NULL) 
 	{		
-		printf("%d\t%s\n", wp->NO, wp->EXPR);
+		printf("\tNo.%d: \tExpr:%s \tNewValue:%d\n", wp->NO, wp->EXPR, wp->newValue);
 		wp = wp->next;
 	}
 	return;
@@ -153,10 +150,11 @@ bool watchpointMonitor(){
 		int newValue = expr(wp->EXPR, &success);
 		if (success && newValue != wp->newValue) 
 		{			
-			printf("watchpoint No.%d\n", wp->NO);	
-			printf("watchpoint EXPR:\t%s\n", wp->EXPR);
-			printf("watchpoint oldValue:\t%d\n", wp->oldValue);
-			printf("watchpoint newValue:\t%d\n", newValue);
+			printf("Detected watchpoint value changed\n");
+			printf(" No.%d\n", wp->NO);	
+			printf(" Expression:\t%s\n", wp->EXPR);
+			printf(" Old Value:\t%d\n", wp->oldValue);
+			printf(" New Value:\t%d\n", newValue);
 			wp->oldValue = wp->newValue;
 			wp->newValue = newValue;
 			return true;			

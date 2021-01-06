@@ -29,7 +29,7 @@ static struct rule {
   {"\\+", '+'},         // plus
 
 
-  {"^\\$0|^\\$ra|^\\$[sgt]p|^\\$t[0-6]|^\\$s[0-9]|^\\$s1[01]|^\\$a[0-7]|^\\$pc", TK_REG}, // regex 
+  {"^\\$0|^\\$ra|^\\$[sgt]p|^\\$t[0-6]|^\\$s[0-9]|^\\$s1[01]|^\\$a[0-7]|^\\$pc", TK_REG}, // regex for riscv32
   {"\\b[0-9]+\\b", TK_DNUM}, // decimal
   {"0[xX][0-9a-fA-F]+", TK_HNUM}, // hex
   {"-", '-'}, // minus
@@ -136,7 +136,9 @@ static bool make_token(char *e) {
             nr_token++;
             break;
 
-          default: TODO();
+          default: 
+            printf("UnRecogized Token Type\n");
+            //Todo handle this case
         }
 
         break;
@@ -158,7 +160,6 @@ static bool check_parents(uint32_t p, uint32_t q){
   {
     return false;
   }
-
   p++;
   while(p<q){
     if (strcmp(tokens[p].str, "(") == 0)
@@ -274,6 +275,7 @@ static uint32_t eval(uint32_t p, uint32_t q){
       case TK_NEG:
         return -temp1;
       default:
+        printf("UnRecogized Token Type\n");
         assert(0);
     }
   }
@@ -281,27 +283,22 @@ static uint32_t eval(uint32_t p, uint32_t q){
 }
 
 static bool judge_deref(int type){
-  switch(type) {
-    case '+':
-    case '-':
-    case '*':
-    case '/': 
-      return true; 
-    default : 
-      return false;
+  if (type == '+' || type == '-' || type == '*' || type == '/' )
+  {
+    return true;
+  }else
+  {
+    return false;
   }
 }
 
 static bool judge_neg(int type){
-  switch(type) {
-    case '+':
-    case '-':
-    case '*':
-    case '/': 
-    case '(': 
-      return true; 
-    default : 
-      return false;
+  if (type == '+' || type == '-' || type == '*' || type == '/' || type == '(')
+  {
+    return true;
+  }else
+  {
+    return false;
   }
 }
 
@@ -310,8 +307,8 @@ uint32_t expr(char *e, bool *success) {
     *success = false;
     return 0;
   }
-
   *success = true;
+  //Todo:预处理，后续可优化
   for (int i = 0; i < nr_token; ++i)
   {
     if (tokens[i].type == '*' && (i == 0 || judge_deref(tokens[i-1].type)))
@@ -327,6 +324,6 @@ uint32_t expr(char *e, bool *success) {
 
   uint32_t result = eval(0, nr_token-1);
 
-  // printf("Result is %u \n", result);
+  Log("Result is %u \n", result);
   return result;
 }

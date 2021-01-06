@@ -115,6 +115,7 @@ static int cmd_info(char *args){
       displayAllWP();
       return 0;
     default: 
+      printf("Must be info r or info w!\n");
       return 1;
   }
 }
@@ -147,7 +148,7 @@ static int cmd_x(char *args){
     return 0;
   }
 
-  printf("\tpaddr \t data \t \n");
+  printf("\tAddress \t Value \t \n");
   for (int i = 0; i < N; ++i)
   {
     printf("0x%08x \t 0x%08x \n", EXPR, vaddr_read(EXPR,4));
@@ -161,10 +162,10 @@ static int cmd_w(char *args){
   WP *wp = new_wp(Expr);
   if (wp != NULL)
   {
-    printf("watchpoint NO.%d: %s\n", wp->NO, wp->EXPR);
+    printf("Watchpoint NO.%d: Expr: %s\n ", wp->NO, wp->EXPR);
   }else
   {
-    printf("watchpoint creating failure\n");
+    printf("Watchpoint creating failure\n");
   }
 
   return 0;
@@ -174,13 +175,13 @@ static int cmd_d(char *args){
   char *argN = strtok(NULL, " ");
   if(argN == NULL) 
   {
-    printf("arg ought to be a positive integer\n");
+    printf("Arg ought to be an unnegative integer\n");
     return 0;
   } 
   
   int N = atoi(argN); 
   if (N < 0 || N > 32) {
-    printf("%d is to large!, the range of N is 0 to %d\n", N, 32);
+    printf("Out of range");
     return 0;
   }
   
