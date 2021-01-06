@@ -146,20 +146,23 @@ bool watchpointMonitor(){
 		return false;
 	} else 
 	{
-		bool success = true;
-		int newValue = expr(wp->EXPR, &success);
-		if (success && newValue != wp->newValue) 
-		{			
-			printf("Detected watchpoint value changed\n");
-			printf(" No.%d\n", wp->NO);	
-			printf(" Expression:\t%s\n", wp->EXPR);
-			printf(" Old Value:\t%d\n", wp->oldValue);
-			printf(" New Value:\t%d\n", newValue);
-			wp->oldValue = wp->newValue;
-			wp->newValue = newValue;
-			return true;			
+		while(wp != NULL)
+		{
+			bool success = true;
+			int newValue = expr(wp->EXPR, &success);
+			if (success && newValue != wp->newValue) 
+			{			
+				printf("Detected watchpoint value changed\n");
+				printf(" No.%d\n", wp->NO);	
+				printf(" Expression:\t%s\n", wp->EXPR);
+				printf(" Old Value:\t%d\n", wp->oldValue);
+				printf(" New Value:\t%d\n", newValue);
+				wp->oldValue = wp->newValue;
+				wp->newValue = newValue;
+				return true;			
+			}
+			wp = wp->next;
 		}
-		
 		return false;
 	}
 }
