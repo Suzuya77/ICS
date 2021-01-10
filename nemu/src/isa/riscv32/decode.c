@@ -68,13 +68,14 @@ make_DHelper(I){
 }
 
 make_DHelper(J){
-  printf("t0 before: %x\n", t0);
+  // printf("t0 before: %x\n", t0);
   t0 = (decinfo.isa.instr.simm20 << 20) |
       (decinfo.isa.instr.imm19_12 << 12) |
       (decinfo.isa.instr.imm11_ << 11) |
       (decinfo.isa.instr.imm10_1 << 1);//Why bother to reassemble the imm number?
   printf("t0 before ext: %x\n", t0);
   t0 = (int32_t) (t0 << 11);
+  printf("t0 left move: %x\n", t0);
   t0 = (uint32_t) (t0 >> 11);
 
   printf("t0 after: %x\n", t0);
