@@ -65,3 +65,49 @@ make_DHelper(I){
 
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
 }
+
+make_DHelper(J){
+  t0 = (decinfo.isa.instr.simm20 << 20) |
+      (decinfo.isa.instr.imm19_12 << 12) |
+      (decinfo.isa.instr.imm11_ << 11) |
+      (decinfo.isa.instr.imm10_1 << 1);//Why bother to reassemble the imm number?
+
+  t0 = (int32_t) (t0 << 11);
+  t0 = (uint32_t) (t0 >> 11);
+
+  decode_op_i(id_src , t0, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  
+  print_Dop(id_src->str, OP_STR_SIZE, "0x%x", t0);
+}
+
+make_DHelper(B){
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+
+  t0 = (decinfo.isa.instr.simm12 << 12) | 
+      (decinfo.isa.instr.imm11 << 11) |
+      (decinfo.isa.instr.imm10_5 << 5) |
+      (decinfo.isa.instr.imm4_1 << 1);
+ 
+  t0 = (int32_t) (t0 << 19);
+  t0 = (uint32_t) (t0 >> 19);
+  
+  rtl_add(&decinfo.jmp_pc, &t0, &cpu.pc);
+  print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
+}
+
+make_DHelper(R){
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+  decode_op_r(id_src2, decinfo.isa.instr.rs2, true);
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+}
+
+
+make_DHelper(system) {
+  t0 = 4;
+  rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
+
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
+  decode_op_r(id_src, decinfo.isa.instr.rs1, true);
+}
