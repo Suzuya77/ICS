@@ -73,7 +73,7 @@ make_DHelper(J){
       (decinfo.isa.instr.imm19_12 << 12) |
       (decinfo.isa.instr.imm11_ << 11) |
       (decinfo.isa.instr.imm10_1 << 1);//Why bother to reassemble the imm number?
-
+  printf("t0 before ext\n", t0);
   t0 = (int32_t) (t0 << 11);
   t0 = (uint32_t) (t0 >> 11);
 
