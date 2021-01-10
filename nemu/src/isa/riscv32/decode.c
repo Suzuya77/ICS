@@ -78,7 +78,7 @@ make_DHelper(J){
   // printf("t0 left move: %x\n", t0);
   t0 = (uint32_t) t0;
 
-  printf("t0 after: %x\n", t0);
+  // printf("t0 after: %x\n", t0);
   decode_op_i(id_src , t0, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
