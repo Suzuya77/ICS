@@ -73,10 +73,10 @@ make_DHelper(J){
       (decinfo.isa.instr.imm19_12 << 12) |
       (decinfo.isa.instr.imm11_ << 11) |
       (decinfo.isa.instr.imm10_1 << 1);//Why bother to reassemble the imm number?
-  printf("t0 before ext: %x\n", t0);
-  t0 = (int32_t) (t0 << 11);
-  printf("t0 left move: %x\n", t0);
-  t0 = (uint32_t) (t0 >> 11);
+  // printf("t0 before ext: %x\n", t0);
+  // t0 = (int32_t) (t0 << 11);
+  // printf("t0 left move: %x\n", t0);
+  // t0 = (uint32_t) (t0 >> 11);
 
   printf("t0 after: %x\n", t0);
   decode_op_i(id_src , t0, true);
@@ -94,8 +94,8 @@ make_DHelper(B){
       (decinfo.isa.instr.imm10_5 << 5) |
       (decinfo.isa.instr.imm4_1 << 1);
  
-  t0 = (int32_t) (t0 << 19);
-  t0 = (uint32_t) (t0 >> 19);
+  // t0 = (int32_t) (t0 << 19);
+  // t0 = (uint32_t) (t0 >> 19);
   
   rtl_add(&decinfo.jmp_pc, &t0, &cpu.pc);
   print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
