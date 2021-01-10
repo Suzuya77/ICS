@@ -104,7 +104,7 @@ make_DHelper(R){
 }
 
 
-make_DHelper(system) {
+make_DHelper(Sys) {
   t0 = 4;
   rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
 
