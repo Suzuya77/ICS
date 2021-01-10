@@ -68,6 +68,7 @@ make_DHelper(I){
 }
 
 make_DHelper(J){
+  printf("t0 before: %x\n", t0);
   t0 = (decinfo.isa.instr.simm20 << 20) |
       (decinfo.isa.instr.imm19_12 << 12) |
       (decinfo.isa.instr.imm11_ << 11) |
@@ -76,7 +77,7 @@ make_DHelper(J){
   t0 = (int32_t) (t0 << 11);
   t0 = (uint32_t) (t0 >> 11);
 
-  printf("t0 current: %x\n", t0);
+  printf("t0 after: %x\n", t0);
   decode_op_i(id_src , t0, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
