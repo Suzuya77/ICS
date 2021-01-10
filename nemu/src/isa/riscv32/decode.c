@@ -76,6 +76,7 @@ make_DHelper(J){
   t0 = (int32_t) (t0 << 11);
   t0 = (uint32_t) (t0 >> 11);
 
+  printf("t0 current: %x\n", t0);
   decode_op_i(id_src , t0, true);
   decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   
