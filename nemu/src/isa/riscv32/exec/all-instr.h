@@ -3,6 +3,8 @@
 make_EHelper(lui);
 
 make_EHelper(ld);
+make_EHelper(lb);
+make_EHelper(lh);
 make_EHelper(st);
 
 make_EHelper(inv);
