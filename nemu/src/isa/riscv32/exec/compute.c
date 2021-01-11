@@ -58,7 +58,7 @@ make_EHelper(xori){
 make_EHelper(srli_srai){
 	if (decinfo.isa.instr.funct7 == BINNARY_NUM_ZERO)
 	{
-		rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
+		rtl_shr(&id_dest->val, &id_src->val, &id_src2->val);
 		rtl_sr(id_dest->reg, &id_dest->val, 4);
 
 		print_asm_template2(srli);
@@ -67,7 +67,7 @@ make_EHelper(srli_srai){
 
 	if (decinfo.isa.instr.funct7 == BINNARY_NUM_THIRTY_TWO)
 	{
-		rtl_shl(&id_dest->val, &id_src->val, &id_src2->val);
+		rtl_sar(&id_dest->val, &id_src->val, &id_src2->val);
 		rtl_sr(id_dest->reg, &id_dest->val, 4);
 
 		print_asm_template2(srai);
