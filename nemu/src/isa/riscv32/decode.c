@@ -94,8 +94,8 @@ make_DHelper(B){
       (decinfo.isa.instr.imm10_5 << 5) |
       (decinfo.isa.instr.imm4_1 << 1);
  
-  // t0 = (int32_t) (t0 << 19);
-  // t0 = (uint32_t) (t0 >> 19);
+  t0 = (int32_t) (t0 << 19) >> 19;
+  t0 = (uint32_t) t0;
   
   rtl_add(&decinfo.jmp_pc, &t0, &cpu.pc);
   print_Dop(id_dest->str, OP_STR_SIZE, "0x%x", t0);
