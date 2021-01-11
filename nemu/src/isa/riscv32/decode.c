@@ -59,12 +59,12 @@ make_DHelper(I){
   simm = simm << 20;
   simm = simm >> 20;
 
-  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
   decode_op_i(id_src2, simm, true);
 
   print_Dop(id_src->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.rs1);
   print_Dop(id_src2->str, OP_STR_SIZE, "0x%x", decinfo.isa.instr.simm11_0);
 
+  decode_op_r(id_dest, decinfo.isa.instr.rd, false);
 }
 
 make_DHelper(J){
