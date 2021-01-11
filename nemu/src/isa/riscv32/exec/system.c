@@ -12,7 +12,7 @@ int32_t readcsr(int i){
 	  case 0x141:
       return decinfo.isa.sepc;
 	  default:
-      assert(0 && "Unfinished readcsr");
+      assert(0);
 	}
 }
 
@@ -31,13 +31,12 @@ void writecsr(int i, int32_t val){
       decinfo.isa.sepc = val;
       break;
 	  default:
-      assert(0 && "Unfinished writecsr");
+      assert(0);
 	}
 }
 
 make_EHelper(system){
 	switch(decinfo.isa.instr.funct3){
-		/* ecall */
 		case 0b0:
 	    if((decinfo.isa.instr.val & ~(0x7f))==0){
 	        raise_intr(reg_l(17), decinfo.seq_pc - 4);
@@ -46,10 +45,10 @@ make_EHelper(system){
 	        decinfo.is_jmp = 1;
 	    }
 	    else{
-	        assert(0 && "system code unfinish");
+	        assert(0);
 	    }
 	    break;
-		/* csrrw */
+
 		case 0b001:
 	    s0 = readcsr(decinfo.isa.instr.csr);
 	    writecsr(decinfo.isa.instr.csr, id_src->val);
@@ -61,6 +60,6 @@ make_EHelper(system){
 	    rtl_sr(id_dest->reg, &s0, 4);
 	    break;
 		default:
-	    assert(0 && "Unfinished system op");
+	    assert(0);
 	}
 }
