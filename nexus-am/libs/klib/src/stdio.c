@@ -201,11 +201,15 @@ static inline int _print(char **out, const char *fmt, va_list ap) {
   	int flag = 0;
   	int cnt = 0;
   	while (*p) {
-  		if (flag == 1)
+  		// if (flag == 1)
+  		// {
+  		// 	printf("flag is 1!\n");
+  		// }
+    	if (*p == '%' || flag == 1) {
+    		if (flag == 1)
   		{
   			printf("flag is 1!\n");
   		}
-    	if (*p == '%' || flag == 1) {
     		flag = 0;
       		p++;
       		switch (*p) {
