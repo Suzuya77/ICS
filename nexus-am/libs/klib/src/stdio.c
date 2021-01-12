@@ -229,17 +229,17 @@ static inline int _print(char **out, const char *fmt, va_list ap) {
 	        		cnt += _printc(out, va_arg(ap, int));
 	        		break;
 	        	default:
-	        		if (*p >= '0' && *p <= '9')
-	        		{
-	        			do{
-	        				// printf("hey\n");
-	        				p++;
-	        				cnt++;
-	        			}while(*p >= '0' && *p <= '9');
-	        			p--;
-	        			cnt--;
-	        			flag = 1;
-	        		}
+	        		// if (*p >= '0' && *p <= '9')
+	        		// {
+	        		// 	do{
+	        		// 		// printf("hey\n");
+	        		// 		p++;
+	        		// 		cnt++;
+	        		// 	}while(*p >= '0' && *p <= '9');
+	        		// 	p--;
+	        		// 	cnt--;
+	        		// 	flag = 1;
+	        		// }
 	        		break;
       		}
     	} else {
