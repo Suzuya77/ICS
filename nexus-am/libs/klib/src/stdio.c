@@ -206,10 +206,6 @@ static inline int _print(char **out, const char *fmt, va_list ap) {
   		// 	printf("flag is 1!\n");
   		// }
     	if (*p == '%' || flag == 1) {
-    		if (flag == 1)
-  		{
-  			printf("flag is 1!\n");
-  		}
     		flag = 0;
       		p++;
       		switch (*p) {
@@ -238,8 +234,10 @@ static inline int _print(char **out, const char *fmt, va_list ap) {
 	        			do{
 	        				// printf("hey\n");
 	        				p++;
+	        				cnt++;
 	        			}while(*p >= '0' && *p <= '9');
 	        			p--;
+	        			cnt--;
 	        			flag = 1;
 	        		}
 	        		break;
