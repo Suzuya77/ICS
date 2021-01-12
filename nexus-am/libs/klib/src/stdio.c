@@ -201,12 +201,13 @@ static inline int _print(char **out, const char *fmt, va_list ap) {
   	int flag = 0;
   	int cnt = 0;
   	while (*p) {
+  		printf("flag: %d\n", flag);
     	if (*p == '%' || flag == 1) {
     		flag = 0;
       		p++;
       		switch (*p) {
 	        	case 'd':
-	        		printf("d detected\n");
+	        		// printf("d detected\n");
 	        		cnt += _printi(out, va_arg(ap, int), 10, 0, 1);
 	          		break;
 	        	case 'u':
