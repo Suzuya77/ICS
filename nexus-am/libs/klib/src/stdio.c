@@ -227,6 +227,7 @@ static inline int _print(char **out, const char *fmt, va_list ap) {
 	        		if (*p >= '0' && *p <= '9')
 	        		{
 	        			do{
+	        				printf("hey\n");
 	        				p++;
 	        			}while(*p >= '0' && *p <= '9');
 	        			p--;
