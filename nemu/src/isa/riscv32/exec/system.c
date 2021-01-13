@@ -12,6 +12,7 @@ int32_t readcsr(int i){
 	  case 0x141:
       return decinfo.isa.sepc;
 	  default:
+	  printf("Error Code: 0x%x\n", i);
       assert(0);
 	}
 }
