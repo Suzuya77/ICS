@@ -371,7 +371,7 @@ make_EHelper(andi){
   print_asm_template2(andi); 
 }
 
-make_EHelper(sub_add){
+make_EHelper(add_sub){
 	  switch(decinfo.isa.instr.funct7) {
     case 0b0000000: /* add */
       rtl_add(&id_dest->val, &id_src->val, &id_src2->val); 
