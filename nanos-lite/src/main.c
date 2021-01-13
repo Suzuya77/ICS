@@ -33,7 +33,7 @@ int main() {
   Log("Finish initialization");
 
 #ifdef HAS_CTE
-  printf("Now yielding!\n");
+  // printf("Now yielding!\n");
   _yield();
 #endif
 
