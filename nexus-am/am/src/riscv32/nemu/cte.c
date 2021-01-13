@@ -7,7 +7,7 @@ _Context* __am_irq_handle(_Context *c) {
   _Context *next = c;
   if (user_handler) {
     _Event ev = {0};
-    printf("__am_irq_handle here\n");
+    // printf("__am_irq_handle here\n");
     switch (c->cause) {
       case -1:
         ev.event = _EVENT_YIELD;
@@ -43,7 +43,7 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
 
   // register event handler
   user_handler = handler;
-  printf("_cte_init provoked\n");
+  // printf("_cte_init provoked\n");
   return 0;
 }
 
