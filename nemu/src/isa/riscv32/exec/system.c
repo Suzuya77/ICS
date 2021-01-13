@@ -37,6 +37,7 @@ void writecsr(int i, int32_t val){
 }
 
 make_EHelper(system){
+	printf("System Ex\n");
 	switch(decinfo.isa.instr.funct3){
 		case 0b0:
 	    if((decinfo.isa.instr.val & ~(0x7f))==0){
