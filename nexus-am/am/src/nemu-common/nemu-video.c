@@ -3,14 +3,18 @@
 #include <nemu.h>
 #include <klib.h>
 
+#define INITIAL_WIDTH 400
+#define INITIAL_HEIIGHT 300
 size_t __am_video_read(uintptr_t reg, void *buf, size_t size) {
   switch (reg) {
     case _DEVREG_VIDEO_INFO: {
       _DEV_VIDEO_INFO_t *info = (_DEV_VIDEO_INFO_t *)buf;
 
       uint32_t screen_info = inl(SCREEN_ADDR);
-      info->width = screen_info >> 16;
-      info->height = screen_info & 0x0000ffff;
+      // info->width = screen_info >> 16;
+      // info->height = screen_info & 0x0000ffff;
+      info->width = INITIAL_WIDTH;
+      info->height = INITIAL_HEIIGHT;
       return sizeof(_DEV_VIDEO_INFO_t);
     }
   }
