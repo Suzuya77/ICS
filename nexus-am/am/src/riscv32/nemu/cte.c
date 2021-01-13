@@ -43,7 +43,7 @@ int _cte_init(_Context*(*handler)(_Event, _Context*)) {
 
   // register event handler
   user_handler = handler;
-
+  printf("_cte_init provoked\n");
   return 0;
 }
 
