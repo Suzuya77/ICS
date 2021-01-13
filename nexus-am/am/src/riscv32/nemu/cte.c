@@ -52,7 +52,7 @@ _Context *_kcontext(_Area stack, void (*entry)(void *), void *arg) {
 }
 
 void _yield() {
-  printf("yield provoked!\n");
+  // printf("yield provoked!\n");
   asm volatile("li a7, -1; ecall");
 }
 
