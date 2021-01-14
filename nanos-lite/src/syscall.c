@@ -58,7 +58,7 @@ _Context* do_syscall(_Context *c) {
 }
 
 static inline int sys_open(const char*path, int flags, int mode){
-    return fs_open(path);
+    return fs_open(path, flags, mode);
 }
 
 static inline int sys_close(int fd){

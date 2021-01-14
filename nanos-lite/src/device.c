@@ -31,7 +31,7 @@ size_t fbsync_write(const void *buf, size_t offset, size_t len) {
   return 0;
 }
 
-size_t get_dispinfo() {
+size_t get_dispinfo_size() {
   return strlen(dispinfo);
 }
 
