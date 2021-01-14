@@ -24,13 +24,15 @@ void hello_fun(void *arg) {
 
 void init_proc() {
 
-  naive_uload(NULL, "/bin/dummy");
+  // naive_uload(NULL, "/bin/dummy");
 
-  // context_uload(&pcb[0], "/bin/dummy");
+
 
   switch_boot_pcb();
 
   Log("Initializing processes...");
+
+  context_uload(&pcb[0], "/bin/pal");
 
   // load program here
 
