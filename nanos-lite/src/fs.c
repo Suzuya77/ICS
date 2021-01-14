@@ -48,17 +48,25 @@ static Finfo file_table[] __attribute__((used)) = {
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
-int fs_open(const char *path){
-  for (int i = 0; i < NR_FILES; ++i)
-  {
-    if (strcmp(path, file_table[i].name) == 0)
-    {
-      return i;
+// int fs_open(const char *path){
+//   for (int i = 0; i < NR_FILES; ++i)
+//   {
+//     if (strcmp(path, file_table[i].name) == 0)
+//     {
+//       return i;
+//     }
+//   }
+//   printf("%s, no such file\n", path);
+//   assert(0);
+//   return -1;
+// }
+int fs_open(const char *pathname){
+    for(int i = 0; i < NR_FILES;i++){
+        if(strcmp(pathname, file_table[i].name) == 0){
+            return i;
+        }
     }
-  }
-  printf("%s, no such file\n", path);
-  assert(0);
-  return -1;
+    assert(0 && "Can't find file");
 }
 
 int fs_close(int fd){
