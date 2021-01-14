@@ -14,7 +14,7 @@ extern size_t ramdisk_read(void *, size_t, size_t);
 extern size_t ramdisk_write(const void*, size_t, size_t);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  int fd = fs_open(filename);
+  int fd = fs_open("/bin/dummy");
   Elf_Ehdr ehdr;
   fs_read(fd, (void *)&ehdr, sizeof(Elf_Ehdr));
   if (memcmp(ehdr.e_ident, ELFMAG, SELFMAG))
