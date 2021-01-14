@@ -6,11 +6,11 @@ extern _Context* do_syscall(_Context*);
 static _Context* do_event(_Event e, _Context* c) {
   switch (e.event) {
   	case _EVENT_YIELD:
-  		Log("Here comes the yield event");
-  		printf("Here comes the yield event\n");
+  		// Log("Here comes the yield event");
+  		// printf("Here comes the yield event\n");
   		break;
   	case _EVENT_SYSCALL:
-  		printf("Here comes the system call\n");
+  		// printf("Here comes the system call\n");
   		do_syscall(c);
   		break;
     default: panic("Unhandled event ID = %d", e.event);
