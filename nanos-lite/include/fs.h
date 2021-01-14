@@ -13,6 +13,8 @@ int fs_close(int fd);
 size_t fs_read(int fd, void *buf, size_t length);
 size_t fs_lseek(int fd, size_t offset, int pl);
 
+size_t fs_write(int fd, const void *buf, size_t len);
+
 
 
 #endif
