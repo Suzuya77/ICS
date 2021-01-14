@@ -55,60 +55,37 @@ int fs_close(int fd){
   return 0;
 }
 
-// size_t fs_read(int fd, void *buf, size_t length){
-//   if (fd < 0 || fd >= NR_FILES)
-//   {
-//     printf("Wrong fd: %d\n", fd);
-//     assert(0);
-//   }
-
-//   size_t temp = file_table[fd].open_offset;
-//   if (file_table[fd].read == NULL)
-//   {
-//     if (length <= file_table[fd].size)
-//     {
-//       temp = temp + length;
-//     }else{
-//       temp = file_table[fd].size;
-//     }
-//     temp = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, temp);
-//     file_table[fd].open_offset = file_table[fd].open_offset + temp;
-//     return temp;
-//   }else{
-//     temp = length;
-//     if (file_table[fd].size && file_table[fd].open_offset + length > file_table[fd].size)
-//     {
-//       temp = file_table[fd].size - file_table[fd].open_offset;
-//     }
-
-//     temp = file_table[fd].read(buf, file_table[fd].open_offset, temp);
-//     file_table[fd].open_offset = file_table[fd].open_offset + temp;
-//     return temp;
-//   }
-
-// }
-
-static inline void fd_check(int fd) {
-  assert(0 <= fd && fd < NR_FILES);
-}
-
-size_t fs_read(int fd, void *buf, size_t len){
-  fd_check(fd);
-  size_t sz;
-  if (file_table[fd].read == NULL) {
-    sz = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
-    sz = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
-  } else {
-    sz = len;
-    if (file_table[fd].size && file_table[fd].open_offset + len > file_table[fd].size) {
-      sz = file_table[fd].size - file_table[fd].open_offset;
-    }
-    sz = file_table[fd].read(buf, file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
+size_t fs_read(int fd, void *buf, size_t length){
+  if (fd < 0 || fd >= NR_FILES)
+  {
+    printf("Wrong fd: %d\n", fd);
+    assert(0);
   }
+
+  size_t temp = file_table[fd].open_offset;
+  if (file_table[fd].read == NULL)
+  {
+    if (length <= file_table[fd].size)
+    {
+      temp = temp + length;
+    }else{
+      temp = file_table[fd].size;
+    }
+    temp = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, temp);
+    file_table[fd].open_offset = file_table[fd].open_offset + temp;
+    return temp;
+  }else{
+    temp = length;
+    if (file_table[fd].size && file_table[fd].open_offset + length > file_table[fd].size)
+    {
+      temp = file_table[fd].size - file_table[fd].open_offset;
+    }
+
+    temp = file_table[fd].read(buf, file_table[fd].open_offset, temp);
+    file_table[fd].open_offset = file_table[fd].open_offset + temp;
+    return temp;
+  }
+
 }
 
 size_t fs_lseek(int fd, size_t offset, int pl){
@@ -125,4 +102,11 @@ size_t fs_lseek(int fd, size_t offset, int pl){
 
 void init_fs() {
   // TODO: initialize the size of /dev/fb
+  int fb = fs_open("/dev/fb");
+  file_table[fb].size = screen_width()*screen_height()*sizeof(uint32_t);
+  fb = fs_open("/dev/fbsync");
+  file_table[fb].size = 1;
+  extern size_t get_dispinfo();
+  fb = fs_open("/proc/dispinfo");
+  file_table[fb].size = get_dispinfo();
 }
