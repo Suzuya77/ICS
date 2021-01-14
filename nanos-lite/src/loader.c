@@ -1,5 +1,6 @@
 #include "proc.h"
 #include <elf.h>
+#include "fs.h"
 
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
@@ -9,8 +10,36 @@
 # define Elf_Phdr Elf32_Phdr
 #endif
 
+extern size_t ramdisk_read(void *, size_t, size_t);
+extern size_t ramdisk_write(const void*, size_t, size_t);
+
 static uintptr_t loader(PCB *pcb, const char *filename) {
-  TODO();
+  int fd = fs_open(filename);
+  Elf_Ehdr ehdr;
+  fs_read(fd, (void *)&ehdr, sizeof(Elf_Ehdr));
+  if (memcmp(ehdr.e_ident, ELFMAG, SELFMAG))
+  {
+    panic("Wrong ELF format: %s", filename);
+  }
+  // TODO();
+
+  for (size_t i = 0; i < ehdr.e_phnum; ++i)
+  {
+    Elf_Phdr phdr;
+    fs_lseek(fd, ehdr.e_phoff + ehdr.e_phentsize * i, SEEK_SET);
+    fs_read(fd, (void *)&phdr, ehdr.e_phentsize);
+
+    if (phdr.p_type == PT_LOAD)
+    {
+      fs_lseek(fd, phdr.p_offset, SEEK_SET);
+      fs_read(fd, (void *)phdr.p_vaddr, phdr.p_filesz);
+
+      memset((void *) (phdr.p_vaddr + phdr.p_filesz), 0, phdr.p_memsz - phdr.p_filesz);
+    }
+  }
+
+  fs_close(fd);
+
   return 0;
 }
 

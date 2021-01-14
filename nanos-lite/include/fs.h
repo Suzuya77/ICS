@@ -7,4 +7,12 @@
 enum {SEEK_SET, SEEK_CUR, SEEK_END};
 #endif
 
+int fs_open(const char *path);
+int fs_close(int fd);
+
+size_t fs_read(int fd, void *buf, size_t length);
+size_t fs_lseek(int fd, size_t offset, int pl);
+
+
+
 #endif
