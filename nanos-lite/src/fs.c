@@ -66,39 +66,39 @@ size_t fs_read(int fd, void *buf, size_t len){
     assert(0 && "fd out of bound");
   }
 
-  size_t sz;
+  size_t temp;
   if (file_table[fd].read == NULL) {
-    sz = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
-    sz = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
+    temp = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
+    temp = ramdisk_read(buf, file_table[fd].disk_offset + file_table[fd].open_offset, temp);
+    file_table[fd].open_offset += temp;
+    return temp;
   } else {
-    sz = len;
+    temp = len;
     if (file_table[fd].size && file_table[fd].open_offset + len > file_table[fd].size) {
-      sz = file_table[fd].size - file_table[fd].open_offset;
+      temp = file_table[fd].size - file_table[fd].open_offset;
     }
-    sz = file_table[fd].read(buf, file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
+    temp = file_table[fd].read(buf, file_table[fd].open_offset, temp);
+    file_table[fd].open_offset += temp;
+    return temp;
   }
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
   fd_check(fd);
-  size_t sz;
+  size_t temp;
   if (file_table[fd].write == NULL) {
-    sz = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
-    sz = ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
+    temp = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
+    temp = ramdisk_write(buf, file_table[fd].disk_offset + file_table[fd].open_offset, temp);
+    file_table[fd].open_offset += temp;
+    return temp;
   } else {
-    sz = len;
+    temp = len;
     if (file_table[fd].size && file_table[fd].open_offset + len > file_table[fd].size) {
-      sz = file_table[fd].size - file_table[fd].open_offset;
+      temp = file_table[fd].size - file_table[fd].open_offset;
     }
-    sz = file_table[fd].write(buf, file_table[fd].open_offset, sz);
-    file_table[fd].open_offset += sz;
-    return sz;
+    temp = file_table[fd].write(buf, file_table[fd].open_offset, temp);
+    file_table[fd].open_offset += temp;
+    return temp;
   }
 }
 
