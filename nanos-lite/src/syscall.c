@@ -22,7 +22,7 @@ _Context* do_syscall(_Context *c) {
   a[3] = c->GPR4;
 
   switch (a[0]) {
-  	case SYS_exit:
+    case SYS_exit:
   		naive_uload(NULL, "/bin/init");
   		break;
   	case SYS_yield:
@@ -32,25 +32,25 @@ _Context* do_syscall(_Context *c) {
   	case SYS_write:
   		c->GPRx = sys_write(a[1], (void *) (a[2]), a[3]);
   		break;
-	case SYS_read:
-        c->GPRx = sys_read(a[1], (void*)(a[2]), a[3]);
-        break;
+    case SYS_read:
+      c->GPRx = sys_read(a[1], (void*)(a[2]), a[3]);
+      break;
     case SYS_lseek:
-        c->GPRx = sys_lseek(a[1], a[2], a[3]);
-        break;
+      c->GPRx = sys_lseek(a[1], a[2], a[3]);
+      break;
     case SYS_open:
-        c->GPRx = sys_open((const char *)a[1], a[2], a[3]);
-        break;
+      c->GPRx = sys_open((const char *)a[1], a[2], a[3]);
+      break;
     case SYS_close:
-        c->GPRx = sys_close(a[1]);
-        break;
+      c->GPRx = sys_close(a[1]);
+      break;
     case SYS_brk:
-        c->GPRx = sys_brk(a[1]);
-        break;
+      c->GPRx = sys_brk(a[1]);
+      break;
     case SYS_execve:
-        naive_uload(NULL, (const char*)a[1]);
-        c->GPRx = 0;
-        break;
+      naive_uload(NULL, (const char*)a[1]);
+      c->GPRx = 0;
+      break;
     default: panic("Unhandled syscall ID = %d", a[0]);
   }
 

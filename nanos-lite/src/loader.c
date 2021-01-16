@@ -16,18 +16,20 @@ extern size_t ramdisk_write(const void*, size_t, size_t);
 
 static uintptr_t loader(PCB *pcb, const char *filename) {
   int fd = fs_open(filename, 0, 0);
-
-  Elf_Ehdr Ehdr;
-  fs_read(fd, (void *)&Ehdr, sizeof(Elf_Ehdr));
-  if (memcmp(Ehdr.e_ident, ELFMAG, SELFMAG))
+  if(fd == -1){
+    panic("%s : No such file", filename);
+  }
+  Elf_Ehdr header;
+  fs_read(fd, (void *)&header, sizeof(Elf_Ehdr));
+  if (memcmp(header.e_ident, ELFMAG, SELFMAG))
     panic("INCORRECT ELF");
 
-  for (size_t i = 0; i < Ehdr.e_phnum; i++) {
+  for (size_t i = 0; i < header.e_phnum; i++) {
 
     Elf_Phdr Phdr;
-    fs_lseek(fd, Ehdr.e_phoff + Ehdr.e_phentsize * i, SEEK_SET);
-    fs_read(fd, (void *)&Phdr, Ehdr.e_phentsize);
-    
+    fs_lseek(fd, header.e_phoff + header.e_phentsize * i, SEEK_SET);
+    fs_read(fd, (void *)&Phdr, header.e_phentsize);
+
     if (Phdr.p_type == PT_LOAD) {
       fs_lseek(fd, Phdr.p_offset, SEEK_SET);
       fs_read(fd, (void *)Phdr.p_vaddr, Phdr.p_filesz);
@@ -36,8 +38,8 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   }
 
   fs_close(fd);
-
-  return Ehdr.e_entry;
+  Log("%s Loaded", filename);
+  return header.e_entry;
 }
 
 void naive_uload(PCB *pcb, const char *filename) {
