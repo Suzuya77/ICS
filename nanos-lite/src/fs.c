@@ -47,9 +47,6 @@ static Finfo file_table[] __attribute__((used)) = {
 
 #define NR_FILES (sizeof(file_table) / sizeof(file_table[0]))
 
-static inline void fd_check(int fd) {
-  assert(0 <= fd && fd < NR_FILES);
-}
 
 int fs_open(const char *pathname, int flags, int mode){
     for(int i = 0; i < NR_FILES;i++){
@@ -84,7 +81,11 @@ size_t fs_read(int fd, void *buf, size_t len){
 }
 
 size_t fs_write(int fd, const void *buf, size_t len){
-  fd_check(fd);
+  if (fd >= NR_FILES || fd < 0)
+  {
+    assert(0 && "fd out of bound");
+  }
+
   size_t temp;
   if (file_table[fd].write == NULL) {
     temp = file_table[fd].open_offset + len <= file_table[fd].size ? len : file_table[fd].size - file_table[fd].open_offset;
@@ -103,7 +104,11 @@ size_t fs_write(int fd, const void *buf, size_t len){
 }
 
 size_t fs_lseek(int fd, size_t offset, int whence){
-  fd_check(fd);
+  if (fd >= NR_FILES || fd < 0)
+  {
+    assert(0 && "fd out of bound");
+  }
+
     switch(whence){
         case SEEK_SET:
             file_table[fd].open_offset = offset;
