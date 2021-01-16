@@ -6,8 +6,6 @@
 extern size_t ramdisk_read(void *, size_t, size_t);
 extern size_t ramdisk_write(const void*, size_t, size_t);
 
-// extern void isa_vaddr_write(uint32_t, uint32_t, int);
-
 #ifdef __ISA_AM_NATIVE__
 # define Elf_Ehdr Elf64_Ehdr
 # define Elf_Phdr Elf64_Phdr
@@ -22,12 +20,14 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr Ehdr;
   fs_read(fd, (void *)&Ehdr, sizeof(Elf_Ehdr));
   if (memcmp(Ehdr.e_ident, ELFMAG, SELFMAG))
-    panic("file %s ELF format error!", filename);
+    panic("INCORRECT ELF");
 
-  for (size_t i = 0; i < Ehdr.e_phnum; ++i) {
+  for (size_t i = 0; i < Ehdr.e_phnum; i++) {
+
     Elf_Phdr Phdr;
     fs_lseek(fd, Ehdr.e_phoff + Ehdr.e_phentsize * i, SEEK_SET);
     fs_read(fd, (void *)&Phdr, Ehdr.e_phentsize);
+    
     if (Phdr.p_type == PT_LOAD) {
       fs_lseek(fd, Phdr.p_offset, SEEK_SET);
       fs_read(fd, (void *)Phdr.p_vaddr, Phdr.p_filesz);
