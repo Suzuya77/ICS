@@ -13,7 +13,7 @@ bool interpret_relop(uint32_t relop, const rtlreg_t src1, const rtlreg_t src2);
 
 /* RTL basic instructions */
 
-void interpret_rtl_li(rtlreg_t* dest, uint32_t imm) {
+static inline void interpret_rtl_li(rtlreg_t* dest, uint32_t imm) {
   *dest = imm;
 }
 
@@ -108,8 +108,7 @@ static inline void interpret_rtl_setrelop(uint32_t relop, rtlreg_t *dest,
     const rtlreg_t *src1, const rtlreg_t *src2) {
   *dest = interpret_relop(relop, *src1, *src2);
 }
-
-static inline void interpret_rtl_j(vaddr_t target) {
+void interpret_rtl_j(vaddr_t target) {
   cpu.pc = target;
   decinfo_set_jmp(true);
 }
