@@ -120,7 +120,7 @@ size_t fs_lseek(int fd, size_t offset, int whence){
             file_table[fd].open_offset = file_table[fd].size + offset;
             break;
         default:
-          panic("lseek whence error!");
+          panic("Error at fs_lseek() undefined whence type %d", whence);
     }
     return file_table[fd].open_offset;
 }
@@ -134,9 +134,12 @@ void init_fs() {
 
   int fb = fs_open("/dev/fb", 0, 0);
   file_table[fb].size = screen_width()*screen_height()*sizeof(uint32_t);
+
   fb = fs_open("/dev/fbsync", 0, 0);
   file_table[fb].size = 1;
+
   extern size_t get_dispinfo_size();
+  
   fb = fs_open("/proc/dispinfo", 0, 0);
   file_table[fb].size = get_dispinfo_size();
 }

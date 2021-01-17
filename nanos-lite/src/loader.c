@@ -22,7 +22,7 @@ static uintptr_t loader(PCB *pcb, const char *filename) {
   Elf_Ehdr header;
   fs_read(fd, (void *)&header, sizeof(Elf_Ehdr));
   if (memcmp(header.e_ident, ELFMAG, SELFMAG))
-    panic("INCORRECT ELF");
+    panic("Error at loader() incorrect efl");
 
   for (size_t i = 0; i < header.e_phnum; i++) {
 
