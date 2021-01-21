@@ -52,14 +52,15 @@ make_EHelper(system){
 		case 0b0:
 		    if((decinfo.isa.instr.val & ~(0x7f))==0){
 		        raise_intr(reg_l(17), decinfo.seq_pc - 4);
+		        break;
 		    }
 		    else if(decinfo.isa.instr.val == 0x10200073){
 		        decinfo.is_jmp = 1;
+		        break;
 		    }
 		    else{
 		        assert(0);
 		    }
-		    break;
 
 		case 0b001:
 		    s0 = readcsr(decinfo.isa.instr.csr);
