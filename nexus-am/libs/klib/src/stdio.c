@@ -78,8 +78,40 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 *str = (char) num;
                 str++;
                 break;
-            }
-            case 'X':
+              }
+            case 'X': {
+                uint32_t num = va_arg(ap, uint32_t);
+                uint32_t i = 0;
+                char nums[20];
+                if (num == 0){
+                    nums[0] = '0';
+                }
+                else {
+                    while (num != 0) {
+                        uint32_t x = num % 16;
+                        if (x < 10){
+                            nums[i] = x + '0';
+                            i++;
+                        }
+                        else {
+                            nums[i] = x - 10 + 'A';
+                            i++;
+                        }
+                        num /= 16;
+                    }
+                }
+
+                *str = '0';
+                str++;
+                *str = 'x';
+                str++;
+
+                for (int j = i - 1; j >= 0; j--) {
+                    *str = nums[j];
+                    str++;
+                }
+                break;
+              }
             case 'x': {
                 uint32_t num = va_arg(ap, uint32_t);
                 uint32_t i = 0;
@@ -112,7 +144,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                     str++;
                 }
                 break;
-            }
+              }
             default:
                 break;
         }
