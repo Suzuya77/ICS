@@ -6,12 +6,16 @@ int32_t readcsr(int i){
 	switch(i){
 	  case 0x105:
 	  	result = decinfo.isa.stvec;
+	  	break;
 	  case 0x142:
       	result =  decinfo.isa.scause;
+      	break;
 	  case 0x100:
       	result =  decinfo.isa.sstatus;
+      	break;
 	  case 0x141:
       	result =  decinfo.isa.sepc;
+      	break;
 	  default:
 	  	printf("Error Code: 0x%x\n", i);
       	assert(0);
@@ -23,19 +27,19 @@ int32_t readcsr(int i){
 void writecsr(int i, int32_t val){
 	switch(i){
 	  case 0x105:
-      decinfo.isa.stvec = val;
-      break;
+	      decinfo.isa.stvec = val;
+	      break;
 	  case 0x142:
-      decinfo.isa.scause = val;
-      break;
+	      decinfo.isa.scause = val;
+	      break;
 	  case 0x100:
-      decinfo.isa.sstatus = val;
-      break;
+	      decinfo.isa.sstatus = val;
+	      break;
 	  case 0x141:
-      decinfo.isa.sepc = val;
-      break;
+	      decinfo.isa.sepc = val;
+	      break;
 	  default:
-      assert(0);
+      	  assert(0);
 	}
 }
 
