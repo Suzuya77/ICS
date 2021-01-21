@@ -3,24 +3,16 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-#define MAX_CHAR_CAPABILITY 256
-
-static inline void output(char * str){
-    for (uint32_t i = 0; str[i] != '\0'; ++i)
-    {
-        _putc(str[i]);
-    }
-} 
-
-
+/* PA2.2 */
 int printf(const char *fmt, ...) {
     va_list args;
-    char str[MAX_CHAR_CAPABILITY];
+    char str[256];
     int length;
     va_start(args, fmt);
     length = vsprintf(str, fmt, args);
     va_end(args);
-    output(str);
+    for (int i = 0; str[i] != '\0'; i++)
+        _putc(str[i]);
     return length;
 }
 
@@ -36,37 +28,32 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         fmt++;
         switch (*fmt) {
             case 's': {
-                t = va_arg(ap, char*);
+                t = va_arg(ap,
+                char*);
                 length = strlen(t);
-                for (uint32_t i = 0; i < length; i++) {
-                    *str = *t;
-                    str++;
-                    t++;
+                for (int i = 0; i < length; i++) {
+                    *str++ = *t++;
                 }
                 break;
             }
             case 'd': {
-                uint32_t num = va_arg(ap, int);
-                uint32_t i = 0;
+                int num = va_arg(ap,
+                int);
+                int i = 0;
                 char c;
-                if (num == 0){
-                    *str = '0';
-                    str++;
-                }
+                if (num == 0)*str++ = '0';
                 else {
                     if (num < 0) {
-                        *str = '-';
-                        str++;
+                        *str++ = '-';
                         num = (-num);
                     }
                     while (num != 0) {
-                        *str = num % 10 + '0';
-                        num /= 10;
-                        str++;
+                        *str++ = num % 10 + '0';
                         i++;
+                        num /= 10;
                     }
                 }
-                for (uint32_t j = 1; j <= (i / 2); j++) {
+                for (int j = 1; j <= (i / 2); j++) {
                     c = *(str - j);
                     *(str - j) = *(str - (i - j + 1));
                     *(str - (i - j + 1)) = c;
@@ -74,77 +61,32 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
                 break;
             }
             case 'c': {
-                uint32_t num = va_arg(ap, int);
-                *str = (char) num;
-                str++;
+                int num = va_arg(ap,
+                int);
+                *str++ = (char) num;
                 break;
-              }
-            case 'X': {
-                uint32_t num = va_arg(ap, uint32_t);
-                uint32_t i = 0;
-                char nums[20];
-                if (num == 0){
-                    nums[0] = '0';
-                }
-                else {
-                    while (num != 0) {
-                        uint32_t x = num % 16;
-                        if (x < 10){
-                            nums[i] = x + '0';
-                            i++;
-                        }
-                        else {
-                            nums[i] = x - 10 + 'A';
-                            i++;
-                        }
-                        num /= 16;
-                    }
-                }
-
-                *str = '0';
-                str++;
-                *str = 'x';
-                str++;
-
-                for (int j = i - 1; j >= 0; j--) {
-                    *str = nums[j];
-                    str++;
-                }
-                break;
-              }
+            }
+            case 'p':
             case 'x': {
                 uint32_t num = va_arg(ap, uint32_t);
-                uint32_t i = 0;
+                int i = 0;
                 char nums[20];
-                if (num == 0){
-                    nums[0] = '0';
-                }
+                if (num == 0)nums[0] = '0';
                 else {
                     while (num != 0) {
                         uint32_t x = num % 16;
-                        if (x < 10){
-                            nums[i] = x + '0';
-                            i++;
-                        }
-                        else {
-                            nums[i] = x - 10 + 'a';
-                            i++;
-                        }
+                        if (x < 10)nums[i++] = x + '0';
+                        else nums[i++] = x - 10 + 'a';
                         num /= 16;
                     }
                 }
-
-                *str = '0';
-                str++;
-                *str = 'x';
-                str++;
-
+                *str++ = '0';
+                *str++ = 'x';
                 for (int j = i - 1; j >= 0; j--) {
-                    *str = nums[j];
-                    str++;
+                    *str++ = nums[j];
                 }
                 break;
-              }
+            }
             default:
                 break;
         }
