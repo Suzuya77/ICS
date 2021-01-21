@@ -150,7 +150,7 @@ int vsprintf(char *out, const char *fmt, va_list ap) {
         }
     }
     *str = '\0';
-    return length;
+    return str - out;
 }
 
 int sprintf(char *out, const char *fmt, ...) {
