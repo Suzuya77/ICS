@@ -6,6 +6,11 @@
 extern int screen_width();
 extern int screen_height();
 
+#define KEYDOWN_CODE 0x8000
+
+const char *s1 = "ku";
+const char *s2 = "kd";
+
 size_t serial_write(const void *buf, size_t offset, size_t len) {
   for (size_t i = 0; i < len; ++i)
     _putc(((char *)buf)[i]);
@@ -21,17 +26,22 @@ static const char *keyname[256] __attribute__((used)) = {
 };
 
 size_t events_read(void *buf, size_t offset, size_t len) {
-    int keycode = read_key();
-    if(keycode != _KEY_NONE){
-      if (keycode & 0x8000) {
-        keycode ^= 0x8000;
-        len = sprintf(buf, "kd %s\n", keyname[keycode]);
-      } else if(!((keycode & ~0x8000) == _KEY_NONE)){
-        len = sprintf(buf, "ku %s\n", keyname[keycode]);
-      }
-    } else{
-      len = sprintf(buf, "t %u\n", uptime());
+    int key = read_key();
+    int is_down = 0;
+
+    if (key & KEYDOWN_CODE)
+    {
+      key ^= KEYDOWN_CODE;
+      is_down = 1;
     }
+
+    if (key != _KEY_NONE)
+    {
+      len = sprintf(buf, "%s %s\n", (is_down == 1) ? s2 : s1, keyname[key]);
+    }else{
+      len = sprintf(buf, "t %d\n", uptime());
+    }
+    assert(len != strlen(buf));
     return len;
 }
 
