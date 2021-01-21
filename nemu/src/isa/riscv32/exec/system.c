@@ -1,7 +1,8 @@
 #include "cpu/exec.h"
 
 extern void raise_intr(uint32_t, vaddr_t);
-int32_t readcsr(int i){
+
+static inline int32_t read_handler(int i){
 	uint32_t result;
 	switch(i){
 	  case 0x105:
@@ -24,7 +25,12 @@ int32_t readcsr(int i){
 	return result;
 }
 
-void writecsr(int i, int32_t val){
+static inline int32_t readcsr(int i){
+	return read_handler(i);
+}
+
+
+static inline void writecsr(int i, int32_t val){
 	switch(i){
 	  case 0x105:
 	      decinfo.isa.stvec = val;
@@ -43,10 +49,14 @@ void writecsr(int i, int32_t val){
 	}
 }
 
+static inline void syshandler(){
+	t0 = 4;
+	rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
+}
+
 make_EHelper(system){
 	// printf("System Ex\n");
-	t0 = 4;
-  	rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
+	syshandler();
 
 	switch(decinfo.isa.instr.funct3){
 		case 0b0:
