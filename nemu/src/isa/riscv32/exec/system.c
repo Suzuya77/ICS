@@ -38,6 +38,9 @@ void writecsr(int i, int32_t val){
 
 make_EHelper(system){
 	// printf("System Ex\n");
+	t0 = 4;
+  	rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
+
 	switch(decinfo.isa.instr.funct3){
 		case 0b0:
 	    if((decinfo.isa.instr.val & ~(0x7f))==0){
