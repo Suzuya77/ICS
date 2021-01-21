@@ -35,6 +35,7 @@ void init_proc() {
   // naive_uload(NULL, "/bin/dummy");
   // naive_uload(NULL, "/bin/dummy");
   // naive_uload(NULL, "/bin/hello");
+  naive_uload(NULL, "/bin/pal");
   // load program here
 
 }
