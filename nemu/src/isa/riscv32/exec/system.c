@@ -2,7 +2,7 @@
 
 extern void raise_intr(uint32_t, vaddr_t);
 
-static inline int32_t read_handler(int i){
+static int32_t read_handler(int i){
 	uint32_t result;
 	switch(i){
 	  case 0x105:
@@ -25,12 +25,12 @@ static inline int32_t read_handler(int i){
 	return result;
 }
 
-static inline int32_t readcsr(int i){
+static int32_t readcsr(int i){
 	return read_handler(i);
 }
 
 
-static inline void writecsr(int i, int32_t val){
+static void writecsr(int i, int32_t val){
 	switch(i){
 	  case 0x105:
 	      decinfo.isa.stvec = val;
@@ -49,7 +49,7 @@ static inline void writecsr(int i, int32_t val){
 	}
 }
 
-static inline void syshandler(){
+static void syshandler(){
 	t0 = 4;
 	rtl_add(&decinfo.jmp_pc, &t0, &decinfo.isa.sepc);
 }
