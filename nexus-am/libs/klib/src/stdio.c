@@ -3,7 +3,7 @@
 
 #if !defined(__ISA_NATIVE__) || defined(__NATIVE_USE_KLIB__)
 
-#define MAX_CHAR_CAPABILITY 256
+#define MAX_CHAR_CAPABILITY 2560
 
 static inline void output(char * str){
     for (uint32_t i = 0; str[i] != '\0'; ++i)
