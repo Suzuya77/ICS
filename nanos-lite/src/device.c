@@ -41,7 +41,7 @@ size_t events_read(void *buf, size_t offset, size_t len) {
     }else{
       len = sprintf(buf, "t %d\n", uptime());
     }
-    assert(len != strlen(buf));
+    // assert(len != strlen(buf));
     return len;
 }
 
